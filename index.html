@@ -5,7 +5,13 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <style>
         body {
-            margin: 0
+            margin: 0;
+        }
+
+        p {
+            margin: 0;
+            padding: 2vh;
+            text-align: center;
         }
 
         .App {
@@ -16,15 +22,12 @@
         }
 
         .App-header {
-            padding: 20px;
-        }
-
-        p {
-            font-size: 24px;
+            height: 20vh;
+            flex-direction: row;
         }
 
         #map {
-            height: 400px;
+            height: 80vh;
             width: 100%;
         }
     </style>
@@ -62,11 +65,12 @@
 
             latlngs.push([latitude, longitude]);
             polyline.setLatLngs(latlngs);
+
+            map.setView([latitude, longitude]);
         }
 
         function error() {
-            console.log("Sorry, no position available.")
-            // alert its kinda annoying in firefox -> alert("Sorry, no position available.");
+            console.log("Sorry, no position available.");
         }
 
         const options = {
