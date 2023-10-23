@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        body {
+            margin: 0
+        }
+
+        .App {
+            text-align: center;
+            background-color: #282c34;
+            color: white;
+            font-family: Arial, sans-serif;
+            height: 100vh;
+        }
+
+        .App-header {
+            padding: 20px;
+        }
+
+        p {
+            font-size: 24px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="App">
+        <header class="App-header">
+            <p id="latitude"></p>
+            <p id="longitude"></p>
+        </header>
+    </div>
+
+    <script>
+        function success(position) {
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
+
+            document.getElementById('latitude').textContent = `Latitude: ${latitude}`;
+            document.getElementById('longitude').textContent = `Longitude: ${longitude}`;
+
+            console.log(`latitude: ${latitude} \nlongitude: ${longitude}`)
+        }
+
+        function error() {
+            alert("Sorry, no position available.");
+        }
+
+        const options = {
+            enableHighAccuracy: true,
+            maximumAge: 30000,
+            timeout: 27000,
+        };
+
+        function updateLocation() {
+            navigator.geolocation.getCurrentPosition(success, error, options);
+        }
+
+        updateLocation();
+
+        const interval = setInterval(updateLocation, 5000);
+
+        window.addEventListener('beforeunload', () => {
+            clearInterval(interval);
+        });
+    </script>
+</body>
+
+</html>
