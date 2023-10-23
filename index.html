@@ -2,17 +2,13 @@
 <html>
 
 <head>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <style>
-        body {
-            margin: 0
-        }
-
         .App {
             text-align: center;
             background-color: #282c34;
             color: white;
             font-family: Arial, sans-serif;
-            height: 100vh;
         }
 
         .App-header {
@@ -22,18 +18,33 @@
         p {
             font-size: 24px;
         }
+
+        #map {
+            height: 400px;
+            width: 100%;
+        }
     </style>
 </head>
 
 <body>
     <div class="App">
         <header class="App-header">
-            <p id="latitude"></p>
-            <p id="longitude"></p>
+            <p id="latitude">Latitude: </p>
+            <p id="longitude">Longitude: </p>
         </header>
+        <div id="map"></div>
     </div>
 
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script>
+        var map = L.map('map').setView([0, 0], 13);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+        }).addTo(map);
+
+        var marker = L.marker([0, 0]).addTo(map);
+
         function success(position) {
             const latitude = position.coords.latitude;
             const longitude = position.coords.longitude;
@@ -41,7 +52,8 @@
             document.getElementById('latitude').textContent = `Latitude: ${latitude}`;
             document.getElementById('longitude').textContent = `Longitude: ${longitude}`;
 
-            console.log(`latitude: ${latitude} \nlongitude: ${longitude}`)
+            marker.setLatLng([latitude, longitude]).update();
+            map.setView([latitude, longitude]);
         }
 
         function error() {
