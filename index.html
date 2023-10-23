@@ -4,6 +4,10 @@
 <head>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <style>
+        body {
+            margin: 0
+        }
+
         .App {
             text-align: center;
             background-color: #282c34;
@@ -44,6 +48,8 @@
         }).addTo(map);
 
         var marker = L.marker([0, 0]).addTo(map);
+        var polyline = L.polyline([], { color: 'blue' }).addTo(map);
+        var latlngs = [];
 
         function success(position) {
             const latitude = position.coords.latitude;
@@ -53,11 +59,16 @@
             document.getElementById('longitude').textContent = `Longitude: ${longitude}`;
 
             marker.setLatLng([latitude, longitude]).update();
-            map.setView([latitude, longitude]);
+
+            latlngs.push([latitude, longitude]);
+            polyline.setLatLngs(latlngs);
+
+            map.setView([latitude, longitude], 13);
         }
 
         function error() {
-            alert("Sorry, no position available.");
+            console.log("Sorry, no position available.")
+            // alert its kinda annoying in firefox -> alert("Sorry, no position available.");
         }
 
         const options = {
